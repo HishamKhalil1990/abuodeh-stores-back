@@ -5,7 +5,7 @@ const router = express.Router()
 
 // import all functions
 const accountFunctions = require('../utils/functions/accountFunctions')
-const authenticate = require('../utils/authenticate')
+const authenticate = require('../utils/tools/authenticate')
 
 // import env variables
 const NEW_VERIFY_LINK = process.env.NEW_VERIFY_LINK
@@ -61,10 +61,44 @@ const login = async (req,res) => {
         res.send({msg : `error : ${err}`})
     }
 }
+// send verifing email again
+const sendEmail = async (req,res) => {
+    try{
+        // get fields values from the request body
+        const { username,email,password } = req.body
+        // check if values are vailed
+        if(username && password && email){
+            // try to repeat sending a verifing email
+            await accountFunctions.repeatSending(username,email,password,res)
+        }else{
+            res.send({msg : "empty fields"})
+        }
+    }catch(err){
+        res.send({msg : `error : ${err}`})
+    } 
+}
+// forget passwords
+const forgetPassword = async (req,res) => {
+    try{
+        // get fields values from the request body
+        const { email,password } = req.body
+        // check if values are vailed
+        if(password && email){
+            // try to change the password
+            await accountFunctions.changePassword(email,null,password,res)
+        }else{
+            res.send({msg : "empty fields"})
+        }
+    }catch(err){
+        res.send({msg : `error : ${err}`})
+    } 
+}
 
 // routes
 router.post('/reg',register)
 router.get('/verify/:token',verifyEmail)
 router.post('/login',login)
+router.post('/send-email-verify',sendEmail)
+router.put('/forget-password',forgetPassword)
 
 module.exports = router
