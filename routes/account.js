@@ -11,6 +11,7 @@ const authenticate = require('../utils/tools/authenticate')
 const NEW_VERIFY_LINK = process.env.NEW_VERIFY_LINK
 
 // routes functions
+
 // register
 const register = async (req,res) => {
     try{
@@ -28,6 +29,7 @@ const register = async (req,res) => {
     }
     
 }
+
 // verify email
 const verifyEmail = async (req,res) => {
     try{
@@ -45,6 +47,7 @@ const verifyEmail = async (req,res) => {
         res.send({msg : `error : ${err}`})
     }
 }
+
 // login
 const login = async (req,res) => {
     try{
@@ -61,15 +64,16 @@ const login = async (req,res) => {
         res.send({msg : `error : ${err}`})
     }
 }
+
 // send verifing email again
 const sendEmail = async (req,res) => {
     try{
         // get fields values from the request body
-        const { username,email,password } = req.body
+        const { username,email } = req.body
         // check if values are vailed
-        if(username && password && email){
+        if(username && email){
             // try to repeat sending a verifing email
-            await accountFunctions.repeatSending(username,email,password,res)
+            await accountFunctions.repeatSending(username,email,res)
         }else{
             res.send({msg : "empty fields"})
         }
@@ -77,15 +81,16 @@ const sendEmail = async (req,res) => {
         res.send({msg : `error : ${err}`})
     } 
 }
+
 // forget passwords
 const forgetPassword = async (req,res) => {
     try{
         // get fields values from the request body
-        const { email,password } = req.body
+        const { username,email } = req.body
         // check if values are vailed
-        if(password && email){
+        if(username && email){
             // try to change the password
-            await accountFunctions.changePassword(email,null,password,res)
+            await accountFunctions.changePassword(email,username,null,null,res)
         }else{
             res.send({msg : "empty fields"})
         }

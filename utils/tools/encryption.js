@@ -7,7 +7,7 @@ const encrypt = (password) => {
 }
 // create encrypted-password decryption function
 const decrypt = (encryptedPassword) => {
-    return CryptoJs.AES.decrypt(encryptedPassword,'secret key 123').toString(CryptoJS.enc.Utf8)
+    return CryptoJs.AES.decrypt(encryptedPassword,'secret key 123').toString(CryptoJs.enc.Utf8)
 }
 
 module.exports = {

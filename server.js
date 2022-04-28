@@ -3,7 +3,6 @@ require("dotenv").config();
 const express = require("express");
 const bodyBarser = require("body-parser");
 const cors = require("cors");
-const { PrismaClient } = require('@prisma/client')
 
 // import env variables
 const PORT = process.env.PORT || 3005;
@@ -20,11 +19,5 @@ app.listen(PORT, (err) => {
   console.log("connected");
 });
 
-// create prisma client
-const prisma = new PrismaClient();
-
 // main routes
 app.use("/account", accountRouter);
-
-// exports
-module.exports = prisma
