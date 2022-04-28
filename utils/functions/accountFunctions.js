@@ -3,6 +3,7 @@ require('dotenv').config()
 const hash = require('../tools/encryption');
 const authenticate = require('../tools/authenticate')
 const sendEmail = require('../tools/email');
+const prisma = require('../../server')
 
 // import env variables
 const BASE_URL = process.env.BASE_URL
@@ -37,7 +38,12 @@ const createUser = async (username,password,email,department,res) => {
     if(extenion === 'abuodehbros.com'){
         // create a user (not finished)
         const encryptedPassword = hash.encrypt(password)
-
+        await prisma.user.create({
+            username,
+            email,
+            password,
+            department
+        })
         // return user (not finished)
         return true
     }
